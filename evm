@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+case "$1" in
+'list')
+    ls -l ~/Library/Erlang/Versions | awk '/dr.*/ { print $NF }'
+	;;
+'use')
+    rm -f "$HOME/Library/Erlang/Current"
+    ln -s "$HOME/Library/Erlang/Versions/$2" ~/Library/Erlang/Current
+	;;
+'current')
+    ls -la ~/Library/Erlang/Current | awk -F '/' '{ print $NF }'
+  ;;
+'info')
+    sh -c 'erl -eval "io:format(\"~s compiled for ~s, ~sbit~n\", [erlang:system_info(otp_release), erlang:system_info(system_architecture), integer_to_list(8 * erlang:system_info(wordsize))])" -s erlang halt -noshell'
+  ;;
+*)
+	echo "Usage: $0 { list | use (version) }"
+	;;
+esac
