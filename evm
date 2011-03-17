@@ -7,10 +7,22 @@ case "$1" in
 'use')
     rm -f "$HOME/Library/Erlang/Current"
     ln -s "$HOME/Library/Erlang/Versions/$2" "$HOME/Library/Erlang/Current"
-	;;
-'info')
-    sh -c 'erl -eval "io:format(\"~s compiled for ~s, ~sbit~n\", [erlang:system_info(otp_release), erlang:system_info(system_architecture), integer_to_list(8 * erlang:system_info(wordsize))])" -s erlang halt -noshell'
   ;;
+'info')
+  case "$2" in
+  'arch')
+    evm current | awk '{ print $NF }'
+    ;;
+  'vsn')
+    evm current | awk '{ print $1 }'
+    ;;
+  *)
+    evm current
+  esac
+  ;;
+'current')
+    sh -c 'erl -eval "io:format(\"~s compiled for ~s, ~sbit~n\", [erlang:system_info(otp_release), erlang:system_info(system_architecture), integer_to_list(8 * erlang:system_info(wordsize))])" -s erlang halt -noshell'
+    ;;
 *)
 	echo "Usage: $0 { list | use (version) | info }"
 	;;
