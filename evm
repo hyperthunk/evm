@@ -1,12 +1,16 @@
 #!/usr/bin/env sh
 
+# choose a default before overriding
+EVM_HOME="$HOME/Library/Erlang"
+test -e "$HOME/.evmrc" && source "$HOME/.evmrc"
+
 case "$1" in
 'list')
-    ls -l "$HOME/Library/Erlang/Versions" | awk '/dr.*/ { print $NF }'
+    ls -l "$EVM_HOME/Versions" | awk '/dr.*/ { print $NF }'
 	;;
 'use')
-    rm -f "$HOME/Library/Erlang/Current"
-    ln -s "$HOME/Library/Erlang/Versions/$2" "$HOME/Library/Erlang/Current"
+    rm -f "$EVM_HOME/Current"
+    ln -s "$EVM_HOME/Versions/$2" "$EVM_HOME/Current"
   ;;
 'info')
   case "$2" in
