@@ -24,10 +24,20 @@ case "$1" in
     evm current
   esac
   ;;
+'site')
+    echo "$EVM_HOME/Site"
+    ;;
+'env')
+    echo "Home: $EVM_HOME"
+    echo "Site Directory: $EVM_HOME/Site"
+    echo "Active Emulator: `evm current`"
+    echo "Environment:"
+    set | grep ERL_
+    ;;
 'current')
     sh -c 'erl -eval "io:format(\"~s compiled for ~s, ~sbit~n\", [erlang:system_info(otp_release), erlang:system_info(system_architecture), integer_to_list(8 * erlang:system_info(wordsize))])" -s erlang halt -noshell'
     ;;
 *)
-	echo "Usage: $0 { list | use (version) | info }"
+	echo "Usage: $0 { list | use (version) | info (arch | vsn) | site | env | current }"
 	;;
 esac
