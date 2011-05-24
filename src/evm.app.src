@@ -1,0 +1,10 @@
+{application, evm,
+ [
+  {description, "EVM"},
+  {vsn, "1"},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {env, []}
+ ]}.

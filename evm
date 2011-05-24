@@ -5,6 +5,9 @@ EVM_HOME="$HOME/Library/Erlang"
 test -e "$HOME/.evmrc" && source "$HOME/.evmrc"
 
 case "$1" in
+'inspect')
+    escript `evm site`/bin/inspect $@
+	;;
 'list')
     ls -l "$EVM_HOME/Versions" | awk '/dr.*/ { print $NF }'
 	;;

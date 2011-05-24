@@ -1,0 +1,18 @@
+#!/usr/bin/env escript
+
+main(_) ->
+	Home = os:getenv("HOME"),
+	Work = filename:join(filename:join(Home, "work"), "hyperthunk"),
+	{ok, Dirs} = file:list_dir(Work),
+	io:format("~s", [lists:foldl(
+        fun(E, Acc) ->
+            case Acc of
+                [] ->
+                    E;
+                _ ->
+                    string:join([E, Acc], ":")
+            end
+        end, "",
+        lists:filter(fun filelib:is_dir/1, 
+					 [ filename:join(Work, D) || D <- Dirs ]))]).
+
