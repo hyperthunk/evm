@@ -14,6 +14,9 @@ case "$1" in
 'use')
     rm -f "$EVM_HOME/Current"
     ln -s "$EVM_HOME/Versions/$2" "$EVM_HOME/Current"
+    if [ -f "$EVM_HOME/Current/activate" ]; then
+        . $EVM_HOME/Current/activate
+    fi
   ;;
 'info')
   case "$2" in
