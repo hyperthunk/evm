@@ -13,6 +13,7 @@ case "$1" in
 	;;
 'use')
     rm -f "$EVM_HOME/Current"
+    rm "$EVM_HOME/Current/tools"
     ln -s "$EVM_HOME/Versions/$2" "$EVM_HOME/Current"
     ln -s "`find $EVM_HOME/Current/lib/erlang/lib -type d -maxdepth 1 | grep /tools-`" "$EVM_HOME/Current/tools"
     if [ -f "$EVM_HOME/Current/activate" ]; then
