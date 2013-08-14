@@ -4,18 +4,24 @@
 EVM_HOME="$HOME/Library/Erlang"
 test -e "$HOME/.evmrc" && source "$HOME/.evmrc"
 
+# NB: this (next) line should be handled generically by `env' now
+# export PATH="$EVM_HOME/Current/tools/bin:$EVM_HOME/Current/erl_interface/bin:$PATH"
+
 case "$1" in
 'inspect')
     escript `evm site`/bin/inspect $@
-	;;
+    ;;
 'list')
     ls -l "$EVM_HOME/Versions" | awk '/dr.*/ { print $NF }'
-	;;
+    ;;
 'use')
+    rm -f "$EVM_HOME/Current/tools"
+    rm -f "$EVM_HOME/Current/erl_interface"
     rm -f "$EVM_HOME/Current"
-    rm "$EVM_HOME/Current/tools"
+    sleep 1
     ln -s "$EVM_HOME/Versions/$2" "$EVM_HOME/Current"
     ln -s "`find $EVM_HOME/Current/lib/erlang/lib -type d -maxdepth 1 | grep /tools-`" "$EVM_HOME/Current/tools"
+    ln -s "`find $EVM_HOME/Current/lib/erlang/lib -type d -maxdepth 1 | grep /erl_interface`" "$EVM_HOME/Current/erl_interface"
     if [ -f "$EVM_HOME/Current/activate" ]; then
         . $EVM_HOME/Current/activate
     fi
@@ -46,6 +52,6 @@ case "$1" in
     sh -c 'erl -eval "io:format(\"~s compiled for ~s, ~sbit~n\", [erlang:system_info(otp_release), erlang:system_info(system_architecture), integer_to_list(8 * erlang:system_info(wordsize))])" -s erlang halt -noshell'
     ;;
 *)
-	echo "Usage: $0 { list | use (version) | info (arch | vsn) | site | env | current }"
-	;;
+    echo "Usage: $0 { list | use (version) | info (arch | vsn) | site | env | current }"
+    ;;
 esac
